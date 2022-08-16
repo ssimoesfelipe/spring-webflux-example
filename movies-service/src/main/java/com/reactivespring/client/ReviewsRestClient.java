@@ -5,6 +5,7 @@ import com.reactivespring.exception.MoviesInfoClientException;
 import com.reactivespring.exception.MoviesInfoServerException;
 import com.reactivespring.exception.ReviewsClientException;
 import com.reactivespring.exception.ReviewsServerException;
+import com.reactivespring.util.RetryUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -53,6 +54,7 @@ public class ReviewsRestClient {
                       )));
             })
             .bodyToFlux(Review.class)
+            .retryWhen(RetryUtil.retrySpec())
             .log();
   }
 }
